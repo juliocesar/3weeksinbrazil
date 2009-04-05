@@ -1,0 +1,19 @@
+*     { margin: 0; padding: 0; border: 0 none }
+html  { font-family: Optima, "Lucida Grande", sans-serif; font-size: 76% }
+body  { font-size: 1.1em }
+
+#envelope { 
+  position: relative;
+  margin: 0 auto; 
+  margin-top: 50px; 
+  width: 800px; 
+  height: 600px;
+  background: #fff url(/envelope.png) top left no-repeat;
+}
+
+/* Front page */
+#weeks, #pics, #index, #intro { position: absolute }
+#weeks  { top: 30px; left: 60px }
+#pics   { top: 290px; left: 60px }
+#index  { top: 240px; left: 270px }
+#intro  { top: 340px; left: 510px }
