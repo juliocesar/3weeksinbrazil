@@ -5,7 +5,7 @@ body  { font-size: 1.1em }
 #envelope { 
   position: relative;
   margin: 0 auto; 
-  margin-top: 50px; 
+  margin-top: 20px; 
   width: 800px; 
   height: 600px;
   background: #fff url(/envelope.png) top left no-repeat;
