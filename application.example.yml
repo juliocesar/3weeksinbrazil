@@ -1,0 +1,5 @@
+admin:
+  hash: 098f6bcd4621d373cade4e832627b4f6 # test
+database:
+  adapter: sqlite3
+  database: db/database.sqlite3

@@ -1,11 +1,18 @@
 require 'rubygems'
 require 'sinatra'
+require 'yaml'
 require 'activerecord'
 
-# ActiveRecord::Base.establish_connection(
-#   :adapter  => 'sqlite3',
-#   :dbfile   => 'naked.db'
-# )
+# App-wide config
+begin
+  CONFIG = YAML.load_file(File.join(File.dirname(__FILE__), 'application.yml'))
+rescue Errno::ENOENT
+  puts "application.yml not found. Bailing out."
+  exit(1)
+end
+
+# Database
+ActiveRecord::Base.establish_connection(CONFIG['database'])
 
 get '/' do
   haml :home, :layout => false
