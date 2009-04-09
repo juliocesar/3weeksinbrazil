@@ -3,6 +3,7 @@ class CreatePosts < ActiveRecord::Migration
     create_table :posts do |table|
       table.with_options(:null => false) do |t|
         t.string    :title
+        t.string    :zone
         t.text      :body
         t.datetime  :created_at
       end
