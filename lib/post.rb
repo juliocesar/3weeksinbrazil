@@ -1,6 +1,7 @@
 class Post < ActiveRecord::Base
+  has_many  :photos
   validates_presence_of :title, :body, :zone
-  validate :timezone_exists
+  validate              :timezone_exists
   
   private
   def timezone_exists

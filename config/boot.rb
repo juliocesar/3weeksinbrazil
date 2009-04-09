@@ -2,7 +2,7 @@ require 'rubygems'
 require 'activerecord'
 require 'yaml'
 require 'tzinfo'
-gem     'thoughtbot-paperclip'
+require 'paperclip'
 
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
@@ -16,8 +16,10 @@ rescue Errno::ENOENT
   exit(1)
 end
 
+APP_ROOT = File.dirname(__FILE__)/'..'
+
 ActiveRecord::Base.establish_connection(CONFIG['database'])
+ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 require 'post'
-
-
+require 'photo'
