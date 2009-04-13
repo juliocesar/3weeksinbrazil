@@ -2,7 +2,10 @@
 
 require File.join(File.dirname(__FILE__), '..', 'config', 'boot')
 require 'irb'
-require 'wirble'
-
-Wirble.init and Wirble.colorize if defined?(Wirble)
+begin
+  require 'wirble' 
+  Wirble.init
+  Wirble.colorize
+rescue Exception
+end
 IRB.start

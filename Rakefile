@@ -1,3 +1,5 @@
+require 'spec/rake/spectask'
+
 desc 'Helper task for loading the environment'
 task :environment do
   require File.join(File.dirname(__FILE__), 'app.rb')
@@ -10,4 +12,8 @@ namespace :db do
     ActiveRecord::Migration.verbose = true
     ActiveRecord::Migrator.migrate('db/migrate')
   end
+end
+
+Spec::Rake::SpecTask.new do |t|
+  t.spec_files = FileList['spec/*_spec.rb']
 end

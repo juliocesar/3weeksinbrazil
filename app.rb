@@ -1,6 +1,7 @@
-require File.join(File.dirname(__FILE__), 'config', 'boot')
-
+require 'rubygems'
 require 'sinatra'
+
+require File.join(File.dirname(__FILE__), 'config', 'boot')
 
 get '/' do
   haml :home, :layout => false

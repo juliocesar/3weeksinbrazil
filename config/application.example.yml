@@ -3,3 +3,18 @@ admin:
 database:
   adapter: sqlite3
   database: db/database.sqlite3
+itinerary:
+  'on the way':
+    'Sydney to Argentina': 
+      departure:  '20/05/2009 10:30 AM +1000'
+      arrival:    '20/05/2009 10:50 AM -0300'
+    'Argentina to Brazil':
+      departure:  '20/05/2009 03:50 PM -0300'
+      arrival:    '20/05/2009 05:50 PM -0300'
+  'back to oz'
+    'Brazil to Argentina':
+      departure:  '10/06/2009 06:30 AM -0300'
+      arrival:    '10/06/2009 08:30 AM -0300'
+    'Argentina to Sydney':
+      departure:  '10/06/2009 02:05 PM -0300'
+      arrival:    '11/06/2009 05:40 PM +1000'
