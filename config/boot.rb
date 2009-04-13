@@ -7,10 +7,13 @@ require 'paperclip'
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'mixins'
+require 'config'
 
 # App-wide config
 begin
-  CONFIG = YAML.load_file File.dirname(__FILE__)/'application.yml'
+  config = YAML.load_file File.dirname(__FILE__)/'application.yml'
+  # config.timify_itineraries!
+  CONFIG = config
 rescue Errno::ENOENT
   puts "application.yml not found. Bailing out."
   exit(1)
