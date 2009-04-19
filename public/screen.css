@@ -17,3 +17,10 @@ body  { font-size: 1.1em }
 #pics   { top: 290px; left: 60px }
 #index  { top: 240px; left: 270px }
 #intro  { top: 340px; left: 510px }
+
+#pages  { 
+  margin: 20px auto 0;
+  width: 672px;
+  height: 805px;
+  background: transparent url('/pages.png') top left no-repeat; 
+}

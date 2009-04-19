@@ -7,7 +7,6 @@ require 'paperclip'
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'mixins'
-require 'config'
 
 # App-wide config
 begin
