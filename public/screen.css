@@ -1,6 +1,17 @@
-*     { margin: 0; padding: 0; border: 0 none }
-html  { font-family: Optima, "Lucida Grande", sans-serif; font-size: 76% }
-body  { font-size: 1.1em }
+*       { margin: 0; padding: 0; border: 0 none }
+html    { font-family: Optima, "Lucida Grande", sans-serif; font-size: 76% }
+body, a { color: #414141 }
+
+a       { text-decoration: none }
+a:hover { text-decoration: underline }
+
+/* Layout is static, so we won't be stretching anything ever */
+h1  { font-size: 22px }
+p   { font-size: 15px }
+
+h1.index  { margin: 0 0 10px 30px }
+p.index   { margin: 5px 0 5px 65px }
+
 
 #envelope { 
   position: relative;
@@ -13,8 +24,8 @@ body  { font-size: 1.1em }
 
 /* Front page */
 #weeks, #pics, #index, #intro { position: absolute }
-#weeks  { top: 30px; left: 60px }
-#pics   { top: 290px; left: 60px }
+#weeks  { top: 30px;  left: 60px  }
+#pics   { top: 290px; left: 60px  }
 #index  { top: 240px; left: 270px }
 #intro  { top: 340px; left: 510px }
 
@@ -22,5 +33,7 @@ body  { font-size: 1.1em }
   margin: 20px auto 0;
   width: 672px;
   height: 805px;
-  background: transparent url('/pages.png') top left no-repeat; 
+  background: transparent url(/pages.png) top left no-repeat; 
 }
+
+#weeks-small  { margin: 40px 0 20px 40px }
