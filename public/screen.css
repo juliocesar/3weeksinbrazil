@@ -10,7 +10,7 @@ h1  { font-size: 22px }
 p   { font-size: 15px }
 
 h1.index  { margin: 0 0 10px 30px }
-p.index   { margin: 5px 0 5px 65px }
+p.post    { margin: 5px 0 10px 55px }
 
 
 #envelope { 
@@ -35,5 +35,6 @@ p.index   { margin: 5px 0 5px 65px }
   height: 805px;
   background: transparent url(/pages.png) top left no-repeat; 
 }
+#pages .content { margin-right: 50px }
 
 #weeks-small  { margin: 40px 0 20px 40px }

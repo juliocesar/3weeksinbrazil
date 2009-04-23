@@ -8,6 +8,7 @@ get '/' do
 end
 
 get '/index' do  
-  @posts = Post.all
+  @posts = Post.paginate :per_page => 9, :page => params[:page]
+  @grouped = @posts.group_by(&:location_from_time)
   haml :index
 end

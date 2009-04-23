@@ -1,7 +1,8 @@
 %a{:href => '/'}
   %img{:id => 'weeks-small', :src => '/3_weeks_small.png', :alt => '3 weeks in Brazil'}
-%h1.index On the way in
-%p.index 
-  %a{:href => '#'} Foo bar nice nice
-%p.index 
-  %a{:href => '#'} Foo bar nice nice
+  
+- @grouped.each do |location, posts|
+  - posts.each do |post|
+    - if posts.first == post
+      %h1.index= location
+    %p.post= post.title
