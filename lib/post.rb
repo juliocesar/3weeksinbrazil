@@ -2,15 +2,7 @@ class Post < ActiveRecord::Base
   has_many  :photos
   validates_presence_of :title, :body, :zone
   validate              :timezone_exists
-  
-  # named_scope :sydney_to_argentina, 
-  #   lambda { 
-  #     :conditions => [
-  #       'created_at > ? AND created_at < ?',
-  #       
-  #     ]
-  #   }
-  
+    
   def location_from_time
     CONFIG['itinerary'].each do |transit, dep_arr|
       if created_at > DateTime.strptime(dep_arr[0], "%d/%m/%Y %I:%M %p %Z") and
@@ -18,7 +10,7 @@ class Post < ActiveRecord::Base
         return transit
       end
     end
-    nil
+    return 'In Brazil'
   end
   
   private
@@ -29,6 +21,5 @@ class Post < ActiveRecord::Base
       errors.add 'zone', 'is not a valid timezone'
     end
   end
-  
   
 end
