@@ -5,6 +5,8 @@ require 'tzinfo'
 require 'paperclip'
 require 'will_paginate'
 
+WillPaginate.enable_activerecord
+
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'mixins'
