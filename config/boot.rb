@@ -3,9 +3,8 @@ require 'activerecord'
 require 'yaml'
 require 'tzinfo'
 require 'paperclip'
-require 'will_paginate'
-
-WillPaginate.enable_activerecord
+require 'will_paginate' 
+require 'will_paginate/finders/active_record'
 
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 

@@ -12,3 +12,18 @@ get '/index' do
   @grouped = @posts.group_by(&:location_from_time)
   haml :index
 end
+
+helpers do
+  
+  def next_page
+    return nil unless @posts.next_page
+    haml_tag :img, :src => '/next.png'
+  end
+  
+  def previous_page
+    return nil unless @posts.previous_page
+    haml_tag :img, :src => '/previous.png'
+  end
+  
+end
+
