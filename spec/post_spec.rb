@@ -16,6 +16,11 @@ describe Post do
       post.save
       post.errors['zone'].should_not be_nil
     end
+    
+    it "generates a slug" do
+      post = Factory :post, :title => 'Foo Bar Inc'
+      post.slug.should == 'Foo Bar Inc'.to_url
+    end
   end
   
   describe '#location_from_time' do

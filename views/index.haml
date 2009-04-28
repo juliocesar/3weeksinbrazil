@@ -5,7 +5,9 @@
   - posts.each do |post|
     - if @all_grouped[location].first == post
       %h1.index= location
-    %p.post= post.title
+    %p.post
+      %a{:href => '/' + post.slug}
+        = post.title
 #navigation
   = next_page
   = previous_page

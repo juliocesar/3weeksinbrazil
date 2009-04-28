@@ -2,6 +2,8 @@ class Post < ActiveRecord::Base
   has_many  :photos
   validates_presence_of :title, :body, :zone
   validate              :timezone_exists
+  
+  before_validation :set_slug
     
   def location_from_time
     CONFIG['itinerary'].each do |transit, dep_arr|
@@ -20,6 +22,10 @@ class Post < ActiveRecord::Base
     rescue TZInfo::InvalidTimezoneIdentifier
       errors.add 'zone', 'is not a valid timezone'
     end
+  end
+  
+  def set_slug
+    self.slug = title.to_url rescue nil
   end
   
 end

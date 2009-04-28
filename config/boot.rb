@@ -3,6 +3,7 @@ require 'activerecord'
 require 'yaml'
 require 'tzinfo'
 require 'paperclip'
+require 'stringex'
 require 'will_paginate' 
 require 'will_paginate/finders/active_record'
 
