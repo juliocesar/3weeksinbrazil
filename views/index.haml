@@ -3,8 +3,9 @@
   
 - @grouped.each do |location, posts|
   - posts.each do |post|
-    - if posts.first == post
+    - if @all_grouped[location].first == post
       %h1.index= location
     %p.post= post.title
-= next_page
-= previous_page
+#navigation
+  = next_page
+  = previous_page

@@ -23,11 +23,18 @@ p.post    { margin: 5px 0 10px 55px }
 }
 
 /* Front page */
-#weeks, #pics, #index, #intro { position: absolute }
-#weeks  { top: 30px;  left: 60px  }
-#pics   { top: 290px; left: 60px  }
-#index  { top: 240px; left: 270px }
-#intro  { top: 340px; left: 510px }
+#weeks, 
+#pics, 
+#index, 
+#intro,
+#next,
+#previous { position: absolute }
+#weeks    { top: 30px;  left: 60px  }
+#pics     { top: 290px; left: 60px  }
+#index    { top: 240px; left: 270px }
+#intro    { top: 340px; left: 510px }
+#next     { top: 740px; left: 750px }
+#previous { top: 770px; left: 710px }
 
 #pages  { 
   margin: 20px auto 0;
