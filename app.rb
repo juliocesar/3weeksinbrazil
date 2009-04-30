@@ -9,14 +9,23 @@ end
 
 get '/index' do
   @all_grouped = Post.all.group_by(&:location_from_time)
-  @posts = Post.paginate :per_page => 12, :page => params[:page]
+  @posts = Post.paginate :per_page => 18, :page => params[:page]
   @grouped = @posts.group_by(&:location_from_time)
   haml :index
 end
 
 get '/:slug' do
   @post = Post.find_by_slug! params[:slug]
-  haml :post
+  case @post.photos.count
+  when 1
+    haml :post_1pic
+  when 2
+    haml :post_2pics
+  when 3
+    haml :post_picscollection
+  else
+    haml :post_nopics
+  end
 end
 
 helpers do
@@ -35,4 +44,9 @@ helpers do
     end
   end
   
+  def three_weeks_logo
+    haml_tag :a, :href => '/' do
+      haml_tag :img, :id => 'weeks-small', :src => '/3_weeks_small.png', :alt => '3 weeks in Brazil'
+    end
+  end
 end

@@ -5,7 +5,9 @@ require 'tzinfo'
 require 'paperclip'
 require 'stringex'
 require 'will_paginate' 
-require 'will_paginate/finders/active_record'
+# require 'will_paginate/finders/active_record'
+
+WillPaginate.enable_activerecord
 
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 

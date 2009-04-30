@@ -9,9 +9,8 @@ a:hover { text-decoration: underline }
 h1  { font-size: 22px }
 p   { font-size: 15px }
 
-h1.index  { margin: 0 0 10px 30px }
-p.post    { margin: 5px 0 10px 55px }
-
+h1.index  { margin-bottom: 10px }
+p.post    { margin: 5px 0 10px 0px }
 
 #envelope { 
   position: relative;
@@ -22,6 +21,15 @@ p.post    { margin: 5px 0 10px 55px }
   background: #fff url(/envelope.png) top left no-repeat;
 }
 
+#pages          { 
+  position: relative;
+  margin: 20px auto 0;
+  width: 672px;
+  height: 805px;
+  background: transparent url(/pages.png) top left no-repeat; 
+}
+#pages .content { margin: 0 30px 0 20px }
+
 /* Front page */
 #weeks, 
 #pics, 
@@ -29,19 +37,11 @@ p.post    { margin: 5px 0 10px 55px }
 #intro,
 #next,
 #previous { position: absolute }
-#weeks    { top: 30px;  left: 60px  }
-#pics     { top: 290px; left: 60px  }
-#index    { top: 240px; left: 270px }
-#intro    { top: 340px; left: 510px }
-#next     { top: 740px; left: 750px }
-#previous { top: 770px; left: 710px }
-
-#pages  { 
-  margin: 20px auto 0;
-  width: 672px;
-  height: 805px;
-  background: transparent url(/pages.png) top left no-repeat; 
-}
-#pages .content { margin-right: 50px }
+#weeks    { top: 30px;  left:   60px  }
+#pics     { top: 290px; left:   60px  }
+#index    { top: 240px; left:   270px }
+#intro    { top: 340px; left:   510px }
+#next     { top: 725px; right:  60px }
+#previous { top: 755px; right:  75px }
 
 #weeks-small  { margin: 40px 0 20px 40px }
