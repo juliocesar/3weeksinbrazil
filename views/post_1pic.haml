@@ -1,4 +1,6 @@
 = three_weeks_logo  
-%h1
+%h1.title
   = @post.title + ', ' + @post.created_at.strftime("%d/%m/%Y") + '.'
-= @post.body
+:textile
+  #{@post.body}
+%img.1pic{:src => @post.photos.first.image.url }

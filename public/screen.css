@@ -10,6 +10,7 @@ h1  { font-size: 22px }
 p   { font-size: 15px }
 
 h1.index  { margin-bottom: 10px }
+h1.title  { margin-bottom: 15px }
 p.post    { margin: 5px 0 10px 0px }
 
 #envelope { 
