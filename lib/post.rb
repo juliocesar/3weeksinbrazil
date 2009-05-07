@@ -18,7 +18,7 @@ class Post < ActiveRecord::Base
   end
   
   def build_montage(force = false)
-    return false if new_record? or skip_montage or photos.count.zero? or (montage_exits? and !force)
+    return false if new_record? or skip_montage or photos.count.zero? or (montage_exists? and !force)
     FileUtils.mkdir_p "#{APP_ROOT}/public/posts/#{id}"
     photo = photos.all :limit => 3, :order => 'created_at DESC'
     command = [
