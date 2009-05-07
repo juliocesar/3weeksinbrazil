@@ -6,6 +6,7 @@ class CreatePhotos < ActiveRecord::Migration
       t.string      :image_file_name, :image_content_type,  :null => false
       t.integer     :image_file_size,                       :null => false
       t.datetime    :image_updated_at
+      t.datetime    :created_at
     end
   end
   

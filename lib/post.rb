@@ -1,9 +1,11 @@
 class Post < ActiveRecord::Base
+  attr_accessor :skip_montage
   has_many  :photos
   validates_presence_of :title, :body, :zone
   validate              :timezone_exists
   
   before_validation :set_slug
+  after_save        :build_montage
     
   def location_from_time
     CONFIG['itinerary'].each do |transit, dep_arr|
@@ -12,7 +14,24 @@ class Post < ActiveRecord::Base
         return transit
       end
     end
-    return 'In Brazil'
+    'In Brazil'
+  end
+  
+  def build_montage(force = false)
+    return false if new_record? or skip_montage or photos.count.zero? or (montage_exits? and !force)
+    FileUtils.mkdir_p "#{APP_ROOT}/public/posts/#{id}"
+    photo = photos.all :limit => 3, :order => 'created_at DESC'
+    command = [
+      "montage null: #{photos.first.image.path} #{photos.first.image.path} -thumbnail 128x128 -sharpen 10 -bordercolor snow",
+      "-background grey20 +polaroid -background Transparent -geometry",
+      "'100x100>-55+0<' -tile 5x #{APP_ROOT}/public/posts/#{id}/montage.png"
+    ].join ' '
+    system command
+    montage_exists?
+  end
+  
+  def montage_exists?
+    File.exists?("#{APP_ROOT}/public/posts/#{id}/montage.png")
   end
   
   private

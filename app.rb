@@ -16,16 +16,7 @@ end
 
 get '/:slug' do
   @post = Post.find_by_slug! params[:slug]
-  case @post.photos.count
-  when 1
-    haml :post_1pic
-  when 2
-    haml :post_2pics
-  when 3
-    haml :post_picscollection
-  else
-    haml :post_nopics
-  end
+  haml :post
 end
 
 helpers do

@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'activerecord'
+require 'fileutils'
 require 'yaml'
 require 'tzinfo'
 require 'paperclip'
