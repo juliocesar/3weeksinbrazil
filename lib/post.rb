@@ -22,9 +22,11 @@ class Post < ActiveRecord::Base
     FileUtils.mkdir_p "#{APP_ROOT}/public/posts/#{id}"
     photo = photos.all :limit => 3, :order => 'created_at DESC'
     command = [
-      "montage null: #{photos.first.image.path} #{photos.first.image.path} -thumbnail 128x128 -sharpen 10 -bordercolor snow",
-      "-background grey20 +polaroid -background Transparent -geometry",
-      "'100x100>-55+0<' -tile 5x #{APP_ROOT}/public/posts/#{id}/montage.png"
+      "montage null:",
+      photos.map { |p| p.image.path },
+      "-bordercolor snow -quality 5",
+      "-background grey20 +polaroid -background Transparent -geometry '100x100>-55+0<'",
+      "-tile 5x #{APP_ROOT}/public/posts/#{id}/montage.png"
     ].join ' '
     system command
     montage_exists?
@@ -32,6 +34,10 @@ class Post < ActiveRecord::Base
   
   def montage_exists?
     File.exists?("#{APP_ROOT}/public/posts/#{id}/montage.png")
+  end
+  
+  def montage_path
+    "/posts/#{id}/montage.png"
   end
   
   private
