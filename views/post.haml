@@ -1,6 +1,5 @@
 = three_weeks_logo  
 %h1.title
   = @post.title + ', ' + @post.created_at.strftime("%d/%m/%Y") + '.'
-:textile
-  #{@post.body}
+= @post.body
 %img.polaroid{:src => @post.montage_path }

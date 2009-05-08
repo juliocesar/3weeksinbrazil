@@ -22,7 +22,12 @@ describe Post do
       post.slug.should == 'Foo Bar Inc'.to_url
     end
     
-    it "builds a montage with 3 pics" do
+    it "HTMLizes the body" do
+      post = Factory :post
+      post.body.should match(/<p>/)
+    end
+    
+    it "can build a montage with 3 pics" do
       post = Factory :post
       3.times { Factory :photo, :post => post }
       post.skip_montage = false

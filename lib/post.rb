@@ -1,6 +1,6 @@
 class Post < ActiveRecord::Base
   attr_accessor :skip_montage
-  has_many  :photos
+  has_many  :photos, :dependent => :destroy
   validates_presence_of :title, :body, :zone
   validate              :timezone_exists
   
@@ -38,6 +38,10 @@ class Post < ActiveRecord::Base
   
   def montage_path
     "/posts/#{id}/montage.png"
+  end
+  
+  def body=(_body)
+    write_attribute(:body, RedCloth.new(_body).to_html)
   end
   
   private

@@ -4,7 +4,7 @@ class CreatePosts < ActiveRecord::Migration
       table.with_options(:null => false) do |t|
         t.string    :title, :limit => 90
         t.string    :zone
-        t.text      :body
+        t.text      :body, :text
         t.datetime  :created_at
       end
     end
