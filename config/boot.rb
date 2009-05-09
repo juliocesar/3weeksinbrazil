@@ -6,6 +6,7 @@ require 'tzinfo'
 require 'redcloth'
 require 'paperclip'
 require 'stringex'
+require 'hpricot'
 require 'will_paginate' 
 # require 'will_paginate/finders/active_record'
 

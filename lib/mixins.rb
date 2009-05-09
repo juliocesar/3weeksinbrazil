@@ -1,1 +1,1 @@
-class String; def /(file) File.join(self, file) end; end
+class String; def /(file) File.join(self, file.to_s) end; end

@@ -2,10 +2,10 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe Post do
   describe 'when saving' do
-    it 'should bitch if title, zone, or body is null' do
+    it 'should bitch if title, zone or text is null' do
       post = Post.new
       post.save
-      ['title', 'zone', 'body'].each do |col|
+      ['title', 'zone', 'text'].each do |col|
         post.errors[col].should_not be_nil
       end
     end
@@ -22,17 +22,28 @@ describe Post do
       post.slug.should == 'Foo Bar Inc'.to_url
     end
     
-    it "HTMLizes the body" do
-      post = Factory :post
-      post.body.should match(/<p>/)
+  end
+  
+  describe 'montages' do
+    before do      
+      @post = Factory :post
+      3.times { Factory :photo, :post => @post }
+      @post.skip_montage = false
+      @post.save
     end
     
-    it "can build a montage with 3 pics" do
-      post = Factory :post
-      3.times { Factory :photo, :post => post }
-      post.skip_montage = false
-      post.build_montage
-      File.exists?("#{APP_ROOT}/public/posts/#{post.id}/montage.png").should == true
+    it 'can build a montage with 3 pics' do
+      File.exists?(APP_ROOT/'public'/'posts'/@post.id/'montage.png').should == true
+    end
+    
+    it 'adds a montage to the first paragraph of the body if one exists' do
+      @post.save
+      @post.body.should match(/<a href/)
+    end
+    
+    it "deletes a post's montage when the post is destroyed" do
+      @post.destroy
+      @post.montage_exists?.should == false
     end
   end
   

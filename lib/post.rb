@@ -1,11 +1,14 @@
 class Post < ActiveRecord::Base
   attr_accessor :skip_montage
-  has_many  :photos, :dependent => :destroy
-  validates_presence_of :title, :body, :zone
-  validate              :timezone_exists
   
-  before_validation :set_slug
+  has_many  :photos, :dependent => :destroy
+  
+  validates_presence_of :title, :text, :zone
+  validate              :timezone_exists  
+  
+  before_validation :set_slug, :build_body
   after_save        :build_montage
+  after_destroy     :delete_montage
     
   def location_from_time
     CONFIG['itinerary'].each do |transit, dep_arr|
@@ -19,7 +22,7 @@ class Post < ActiveRecord::Base
   
   def build_montage(force = false)
     return false if new_record? or skip_montage or photos.count.zero? or (montage_exists? and !force)
-    FileUtils.mkdir_p "#{APP_ROOT}/public/posts/#{id}"
+    FileUtils.mkdir_p APP_ROOT/'public'/'posts'/id
     photo = photos.all :limit => 3, :order => 'created_at DESC'
     command = [
       "montage null:",
@@ -33,15 +36,33 @@ class Post < ActiveRecord::Base
   end
   
   def montage_exists?
-    File.exists?("#{APP_ROOT}/public/posts/#{id}/montage.png")
+    File.exists? APP_ROOT/'public'/'posts'/id/'montage.png'
   end
   
   def montage_path
     "/posts/#{id}/montage.png"
   end
   
-  def body=(_body)
-    write_attribute(:body, RedCloth.new(_body).to_html)
+  def build_body
+    return unless text
+    if montage_exists?
+      doc = Hpricot(RedCloth.new(text).to_html)
+      p = (doc/'p').first
+      p.inner_html = [
+        # "<a href=\"/#{slug}\">",
+          "<img id=\"pic\" src=\"#{montage_path}\" />",
+        # "</a>"
+        p.inner_html
+      ].join
+      self.body = doc.to_s
+    else
+      self.body = RedCloth.new(text).to_html
+    end
+  end
+  
+  def delete_montage
+    return false unless montage_exists?
+    FileUtils.rm_rf APP_ROOT/'public'/'posts'/id
   end
   
   private

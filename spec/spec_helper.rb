@@ -17,7 +17,7 @@ end
 
 Factory.define :post do |post|
   post.title        { Faker::Lorem.paragraph[0..90] }
-  post.body         { Faker::Lorem.paragraph }
+  post.text         { Faker::Lorem.paragraph }
   post.zone         'Australia/Sydney'
   post.skip_montage true
 end

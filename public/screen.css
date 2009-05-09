@@ -7,7 +7,7 @@ a:hover { text-decoration: underline }
 
 /* Layout is static, so we won't be stretching anything ever */
 h1  { font-size: 22px }
-p   { font-size: 15px }
+p   { font-size: 15px; text-indent: 1em }
 
 h1.index  { margin-bottom: 10px }
 h1.title  { margin-bottom: 15px }
@@ -46,3 +46,5 @@ p.post    { margin: 5px 0 10px 0px }
 #previous { top: 755px; right:  75px }
 
 #weeks-small  { margin: 40px 0 20px 40px }
+
+#pic          { float: right }
