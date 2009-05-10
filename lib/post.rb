@@ -25,7 +25,10 @@ class Post < ActiveRecord::Base
     return false if new_record? or skip_montage or photos.count.zero? or (montage_exists? and !force)
     FileUtils.mkdir_p APP_ROOT/'public'/'posts'/id
     if photos.count > 1
-      montage! 3
+      polaroids = photos.inject([]) do |result, photo|
+        result << polaroid!(photo, "/tmp/#{photo.id}.png")
+      end
+      stack_polaroids! polaroids
     else
       polaroid! photos.first
     end
@@ -74,27 +77,28 @@ class Post < ActiveRecord::Base
   def set_slug
     self.slug = title.to_url rescue nil
   end
-  
-  def montage!(total)
-    _photos = photos.all :limit => total
+    
+  def polaroid!(photo, output_path = APP_ROOT/'public'/'posts'/id/'montage.png')
     command = [
-      "montage null:",
-      _photos.map { |p| p.image.path },
-      "-bordercolor white -thumbnail 110x110",
-      "-background grey20 +polaroid -background Transparent -geometry '100x100-35+0'",
-      "-tile 5x #{APP_ROOT}/public/posts/#{id}/montage.png"
+      'convert', photo.image.path, '-thumbnail 130x130',
+      '-bordercolor white', '-border 0.3', '-background transparent', '-background grey20',
+      "-polaroid #{1 + rand(10)}", '-background white',
+      output_path
     ].join ' '
-   system command 
+    system command
+    output_path
   end
   
-  def polaroid!(photo)
+  def stack_polaroids!(images_paths)
+    first, geometry = images_paths.shift, 0
     command = [
-      'convert', photo.image.path, '-thumbnail 110x110',
-      '-bordercolor white', '-background Transparent', '-background grey20',
-      '+polaroid', '-background white',
+      'convert', '-size 200x200', 'xc:transparent', 
+      first, '-geometry +0+0',
+      images_paths.map { |path| ['-composite', path, "-geometry +#{geometry += 10}+0"] },
+      '-composite', '-trim',
       APP_ROOT/'public'/'posts'/id/'montage.png'
     ].join ' '
-    puts "POLAROID: #{command}"
+    puts "COMMAND: #{command}"
     system command
   end
   

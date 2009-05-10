@@ -32,17 +32,17 @@ describe Post do
       @post.save
     end
     
-    it 'can build a montage with 2 or more pics' do
+    it 'builds a polaroid (or a bunch) with one or more pictures' do
       File.exists?(APP_ROOT/'public'/'posts'/@post.id/'montage.png').should == true
     end
     
-    it 'adds a montage to the first paragraph of the body if one exists' do
+    it 'adds the polaroid to the first paragraph of the body if one exists' do
       @post.save
       p = (Hpricot(@post.body)/'p').first
       p.to_s.should match(/<a href/)
     end
     
-    it "deletes a post's montage when the post is destroyed" do
+    it "deletes a post's polaroid(s) when the post is destroyed" do
       @post.destroy
       @post.montage_exists?.should == false
     end
