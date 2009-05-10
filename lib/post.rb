@@ -4,6 +4,7 @@ class Post < ActiveRecord::Base
   has_many  :photos, :dependent => :destroy
   
   validates_presence_of :title, :text, :zone
+  validates_length_of   :title, :within => 1..85
   validate              :timezone_exists  
   
   before_validation :set_slug, :build_body
@@ -23,15 +24,11 @@ class Post < ActiveRecord::Base
   def build_montage(force = false)
     return false if new_record? or skip_montage or photos.count.zero? or (montage_exists? and !force)
     FileUtils.mkdir_p APP_ROOT/'public'/'posts'/id
-    photo = photos.all :limit => 3, :order => 'created_at DESC'
-    command = [
-      "montage null:",
-      photos.map { |p| p.image.path },
-      "-bordercolor snow -quality 5",
-      "-background grey20 +polaroid -background Transparent -geometry '100x100>-55+0<'",
-      "-tile 5x #{APP_ROOT}/public/posts/#{id}/montage.png"
-    ].join ' '
-    system command
+    if photos.count > 1
+      montage! 3
+    else
+      polaroid! photos.first
+    end
     montage_exists?
   end
   
@@ -49,9 +46,9 @@ class Post < ActiveRecord::Base
       doc = Hpricot(RedCloth.new(text).to_html)
       p = (doc/'p').first
       p.inner_html = [
-        # "<a href=\"/#{slug}\">",
+        "<a href=\"/#{slug}/photos\">",
           "<img id=\"pic\" src=\"#{montage_path}\" />",
-        # "</a>"
+        "</a>",
         p.inner_html
       ].join
       self.body = doc.to_s
@@ -76,6 +73,29 @@ class Post < ActiveRecord::Base
   
   def set_slug
     self.slug = title.to_url rescue nil
+  end
+  
+  def montage!(total)
+    _photos = photos.all :limit => total
+    command = [
+      "montage null:",
+      _photos.map { |p| p.image.path },
+      "-bordercolor white -thumbnail 110x110",
+      "-background grey20 +polaroid -background Transparent -geometry '100x100-35+0'",
+      "-tile 5x #{APP_ROOT}/public/posts/#{id}/montage.png"
+    ].join ' '
+   system command 
+  end
+  
+  def polaroid!(photo)
+    command = [
+      'convert', photo.image.path, '-thumbnail 110x110',
+      '-bordercolor white', '-background Transparent', '-background grey20',
+      '+polaroid', '-background white',
+      APP_ROOT/'public'/'posts'/id/'montage.png'
+    ].join ' '
+    puts "POLAROID: #{command}"
+    system command
   end
   
 end

@@ -16,10 +16,9 @@ def create_post
 end
 
 Factory.define :post do |post|
-  post.title        { Faker::Lorem.paragraph[0..90] }
-  post.text         { Faker::Lorem.paragraph }
+  post.title        { Faker::Lorem.paragraph[0..84] }
+  post.text         { Faker::Lorem.paragraph } 
   post.zone         'Australia/Sydney'
-  post.skip_montage true
 end
 
 Factory.define :photo do |photo|
