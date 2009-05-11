@@ -1,0 +1,7 @@
+= three_weeks_logo  
+%h1.title
+  = @post.title + ', ' + @post.created_at.strftime("%d/%m/%Y") + '.'
+- @post.photos.each do |photo|
+  %img{:src => photo.polaroid_path, :alt => photo.image_file_name }
+
+

@@ -19,6 +19,11 @@ get '/:slug' do
   haml :post
 end
 
+get '/:slug/photos' do
+  @post = Post.find_by_slug! params[:slug]
+  haml :photos
+end
+
 helpers do
   
   def next_page

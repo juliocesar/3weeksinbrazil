@@ -21,12 +21,12 @@ class Post < ActiveRecord::Base
     'In Brazil'
   end
   
-  def build_montage(force = false)
-    return false if new_record? or skip_montage or photos.count.zero? or (montage_exists? and !force)
+  def build_montage
+    return false if new_record? or skip_montage or photos.count.zero?
     FileUtils.mkdir_p APP_ROOT/'public'/'posts'/id
     if photos.count > 1
-      polaroids = photos.inject([]) do |result, photo|
-        result << polaroid!(photo, "/tmp/#{photo.id}.png")
+      polaroids = photos.all(:limit => 3).inject([]) do |result, photo|
+        result << polaroid!(photo)
       end
       stack_polaroids! polaroids
     else
@@ -78,7 +78,10 @@ class Post < ActiveRecord::Base
     self.slug = title.to_url rescue nil
   end
     
-  def polaroid!(photo, output_path = APP_ROOT/'public'/'posts'/id/'montage.png')
+  def polaroid!(photo, output_path = nil)
+    puts "POLAROIDING: #{photo.inspect}"
+    output_path ||= APP_ROOT/'public'/'photos'/photo.id/'polaroid'/"#{File.basename(pngize(photo.image.path))}"
+    FileUtils.mkdir_p File.dirname(output_path) unless File.directory?(File.dirname(output_path))
     command = [
       'convert', photo.image.path, '-thumbnail 130x130',
       '-bordercolor white', '-border 0.3', '-background transparent', '-background grey20',
@@ -87,6 +90,11 @@ class Post < ActiveRecord::Base
     ].join ' '
     system command
     output_path
+  end
+  
+  def pngize(path)
+    extension = File.extname(path)
+    path.sub! /#{extension}$/, '.png'
   end
   
   def stack_polaroids!(images_paths)
