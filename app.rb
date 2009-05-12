@@ -14,7 +14,7 @@ get '/index' do
 end
 
 get '/pics' do
-  @posts = Post.paginate :per_page => 10, :page => params[:page]
+  @posts = Post.paginate :joins => [:photos], :group => 'posts.id', :per_page => 10, :page => params[:page]
   haml :pics
 end
 

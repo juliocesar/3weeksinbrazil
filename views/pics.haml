@@ -1,7 +1,9 @@
 = three_weeks_logo  
 %h1.title All pictures
-- @posts.each do |post|
-  %a{:href => "/#{post.slug}/photos"}
-    %img{:src => post.montage_path, :alt => post.title}
+%ul{:id => 'photos'}
+  - @posts.each do |post|
+    %li
+      %a{:href => "/#{post.slug}/photos"}
+        %img{:src => post.montage_path, :alt => post.title}
 = next_page @posts, "/pics?page=#{@posts.next_page}"
 = previous_page @posts, "/pics?page=#{@posts.previous_page}"

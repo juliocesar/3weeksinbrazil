@@ -1,8 +1,10 @@
 = three_weeks_logo  
 %h1.title
   = @post.title + ', ' + @post.created_at.strftime("%d/%m/%Y") + '.'
-- @photos.each do |photo|
-  %a{:href => photo.image.url }
-    %img{:src => photo.polaroid_path, :alt => photo.image_file_name }
+%ul{:id => 'photos'}
+  - @photos.each do |photo|
+    %li
+      %a{:href => photo.image.url }
+        %img{:src => photo.polaroid_path, :alt => photo.image_file_name }
 = next_page @photos, "/#{@post.slug}/photos?page=#{@photos.next_page}"
 = previous_page @photos, "/#{@post.slug}/photos?page=#{@photos.previous_page}"
