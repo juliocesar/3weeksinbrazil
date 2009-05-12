@@ -13,6 +13,11 @@ get '/index' do
   haml :index
 end
 
+get '/pics' do
+  @posts = Post.paginate :per_page => 10, :page => params[:page]
+  haml :pics
+end
+
 get '/:slug' do
   @post = Post.find_by_slug! params[:slug]
   haml :post
