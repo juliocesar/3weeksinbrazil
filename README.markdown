@@ -1,7 +1,6 @@
 # the gist
 
-3 weeks in the south of Brazil, documenting the true "naked" country you haven't seen, 
-if you know what I mean.
+3 weeks in the south of Brazil, documenting the true "naked" country you haven't seen.
 
 # License
 
