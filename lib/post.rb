@@ -7,8 +7,8 @@ class Post < ActiveRecord::Base
   validates_length_of   :title, :within => 1..85
   validate              :timezone_exists  
   
-  before_validation :set_slug, :build_body
-  after_save        :build_montage
+  before_validation :set_slug, :build_body!
+  after_save        :build_montage!
   after_destroy     :delete_montage
     
   def location_from_time
@@ -21,16 +21,16 @@ class Post < ActiveRecord::Base
     'In Brazil'
   end
   
-  def build_montage
+  def build_montage!
     return false if new_record? or skip_montage or photos.count.zero?
     FileUtils.mkdir_p APP_ROOT/'public'/'posts'/id
     if photos.count > 1
-      polaroids = photos.all(:limit => 3).inject([]) do |result, photo|
+      polaroids = photos.all.inject([]) do |result, photo|
         result << polaroid!(photo)
       end
-      stack_polaroids! polaroids
+      stack_polaroids! polaroids[0..2]
     else
-      polaroid! photos.first
+      polaroid! photos.first, APP_ROOT/'public'/'posts'/id/'montage.png'
     end
     montage_exists?
   end
@@ -43,7 +43,7 @@ class Post < ActiveRecord::Base
     "/posts/#{id}/montage.png"
   end
   
-  def build_body
+  def build_body!
     return unless text
     if montage_exists?
       doc = Hpricot(RedCloth.new(text).to_html)
@@ -79,13 +79,12 @@ class Post < ActiveRecord::Base
   end
     
   def polaroid!(photo, output_path = nil)
-    puts "POLAROIDING: #{photo.inspect}"
     output_path ||= APP_ROOT/'public'/'photos'/photo.id/'polaroid'/"#{File.basename(pngize(photo.image.path))}"
     FileUtils.mkdir_p File.dirname(output_path) unless File.directory?(File.dirname(output_path))
     command = [
       'convert', photo.image.path, '-thumbnail 130x130',
       '-bordercolor white', '-border 0.3', '-background transparent', '-background grey20',
-      "-polaroid #{1 + rand(10)}", '-background white',
+      "-polaroid #{rand(5) * (rand(2).zero? ? -1 : 1)}", '-background white',
       output_path
     ].join ' '
     system command
@@ -106,7 +105,6 @@ class Post < ActiveRecord::Base
       '-composite', '-trim',
       APP_ROOT/'public'/'posts'/id/'montage.png'
     ].join ' '
-    puts "COMMAND: #{command}"
     system command
   end
   

@@ -6,5 +6,5 @@
     %p.post
       %a{:href => '/' + post.slug}
         = post.title
-= next_page
-= previous_page
+= next_page @posts, "/index?page=#{@posts.next_page}"
+= previous_page @posts, "/index?page=#{@posts.previous_page}"
