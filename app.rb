@@ -3,8 +3,8 @@ require 'sinatra'
 
 require File.join(File.dirname(__FILE__), 'config', 'boot')
 
-get '/'       { haml :home, :layout => false end }
-get '/intro'  { haml :intro end }
+get '/'       do haml :home, :layout => false end
+get '/intro'  do haml :intro end
 
 get '/index' do
   @all_grouped = Post.all.group_by(&:location_from_time)
