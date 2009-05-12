@@ -30,6 +30,7 @@ class Post < ActiveRecord::Base
       end
       stack_polaroids! polaroids[0..2]
     else
+      polaroid! photos.first
       polaroid! photos.first, APP_ROOT/'public'/'posts'/id/'montage.png'
     end
     montage_exists?
