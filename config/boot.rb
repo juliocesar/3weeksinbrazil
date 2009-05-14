@@ -1,16 +1,10 @@
 require 'rubygems'
-require 'activerecord'
 require 'fileutils'
 require 'yaml'
-require 'tzinfo'
 require 'redcloth'
-require 'paperclip'
 require 'stringex'
 require 'hpricot'
 require 'will_paginate' 
-# require 'will_paginate/finders/active_record'
-
-WillPaginate.enable_activerecord
 
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
@@ -21,13 +15,11 @@ begin
   CONFIG = YAML.load_file File.dirname(__FILE__)/'application.yml'
 rescue Errno::ENOENT
   puts "application.yml not found. Bailing out."
-  exit(1)
+  exit 1
 end
 
-APP_ROOT = File.dirname(__FILE__)/'..'
-
-ActiveRecord::Base.establish_connection(CONFIG['database'])
-ActiveRecord::Base.logger = Logger.new(STDOUT)
+APP_ROOT    = File.dirname(__FILE__)/'..'
+POSTS_ROOT  = File.dirname(__FILE__)/'..'/'posts'
 
 require 'post'
-require 'photo'
+# require 'photo'
