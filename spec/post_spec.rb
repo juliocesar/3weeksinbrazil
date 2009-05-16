@@ -26,11 +26,11 @@ describe Post do
   
   it "returns paginated results on Post#all"
   
-  it "removes the post directory on #delete" # do
-  #     post = Post.open('foo_post')
-  #     post.delete!
-  #     File.directory?(POSTS_ROOT/'foo_post').should == false
-  #   end
+  # it "removes the post directory on #delete" do
+  #   post = Post.open('foo_post')
+  #   post.delete!
+  #   File.directory?(POSTS_ROOT/'foo_post').should == false
+  # end
   
   it "removes the symlink to the post's montage on #delete"
   

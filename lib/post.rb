@@ -20,6 +20,14 @@ class Post
     self.text = File.read dirname/'text'
     @dir = dirname
   end
+    
+  # def delete!
+  #   FileUtils.rm_rf @dir
+  # end
+  
+  def exists?
+    File.directory? @dir
+  end
   
   def photos
     @photos = []
