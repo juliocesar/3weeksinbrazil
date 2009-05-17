@@ -22,7 +22,6 @@ end
 Factory.define :post do |post|
   post.title        { Faker::Lorem.paragraph[0..84] }
   post.text         { Faker::Lorem.paragraph } 
-  post.zone         'Australia/Sydney'
 end
 
 Factory.define :photo do |photo|

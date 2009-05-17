@@ -3,7 +3,7 @@ class Post < ActiveRecord::Base
   
   has_many  :photos, :dependent => :destroy
   
-  validates_presence_of :title, :text, :zone
+  validates_presence_of :title, :text
   validates_length_of   :title, :within => 1..85
   
   before_validation :set_slug, :build_body!
@@ -65,10 +65,19 @@ class Post < ActiveRecord::Base
     FileUtils.rm_rf APP_ROOT/'public'/'posts'/id
   end
   
-  def self.from_directory(path)
+  def self.create_from_directory(path)
     raise ArgumentError, "#{path} must be a valid post directory" unless valid_post_dir?(path)
-    text = File.read(path/'text').split(/\n+/)
-    Post.new :title => text.shift, :text => text.join("\n\n")
+    text_file = File.open(path/'text')
+    title = text_file.readlines.first.chomp
+    text_file.rewind and text_file.seek(title.length)
+    body = text_file.read
+    post = Post.new :title => title, :text => body
+    if File.directory?(path/'photos')
+      Dir[path/'photos'/'*.jpg'].each do |photo|
+        Photo.create :post => post, :image => File.open(photo)
+      end
+    end
+    post
   end
   
   def self.valid_post_dir?(path)

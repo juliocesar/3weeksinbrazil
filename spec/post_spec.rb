@@ -5,7 +5,7 @@ describe Post do
     it 'should bitch if title, zone or text is null' do
       post = Post.new :skip_montage => true
       post.save
-      ['title', 'zone', 'text'].each do |col|
+      ['title', 'text'].each do |col|
         post.errors[col].should_not be_nil
       end
     end
@@ -42,6 +42,7 @@ describe Post do
   
   describe "creating" do
     it "creates a new post from a directory" do
+      
       
     end
     
