@@ -24,7 +24,7 @@ end
 APP_ROOT    = File.dirname(__FILE__)/'..'
 POSTS_ROOT  = File.dirname(__FILE__)/'..'/'posts'
 begin
-  Repo.new POSTS_ROOT
+  REPO = Repo.new POSTS_ROOT
 rescue
   STDERR.puts "POSTS_ROOT (#{POSTS_ROOT}) not found, or not a git repository"
 end    
