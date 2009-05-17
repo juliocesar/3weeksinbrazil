@@ -15,9 +15,14 @@ describe Photo do
       end.should raise_error(Exception)
     end
     
-    it "generates a polaroid on #build_polaroid"
+    it "generates a polaroid on #build_polaroid" do
+      post = create_post('foo_post')
+      photo = post.photos.first
+      photo.polaroid!
+      photo.polaroid_exists?.should == true
+    end
 
-    it "skips generating a polaroid for a picture that already exists on #build_polaroid"
+    it "skips generating a polaroid for a picture that already exists on #build_polaroid" 
     
     it "places a symlink for both the original and the polaroid inside the public directory"
     
