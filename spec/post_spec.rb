@@ -8,7 +8,7 @@ describe Post do
   end
   
   it "returns all valid posts in APP_ROOT/posts with #all" do
-    Post.all.should == ['foo_post']
+    Post.all.should have(1).instance_of(Post)
   end
   
   it "returns an instance of Post on #open" do
@@ -23,10 +23,19 @@ describe Post do
       post.photos.should have(2).instances_of(Photo)
     end
     
-    it "creates a stacked montage of polaroids on #stack_polaroids!" do
+    it "creates a stacked montage of polaroids on #stack_polaroids! and puts it on post_dir/public" do
       post = Post.open('foo_post')
       post.stack_polaroids!
       File.exists?(post.montage_path).should == true
+    end
+    
+    it "symlinks a post's montage and photos onto a public directory on #publish!" do
+      post = Post.open('foo_post')
+      post.stack_polaroids!
+      post.publish!
+      File.directory?(APP_ROOT/'public'/post.name).should == true
+      File.symlink?(APP_ROOT/'public'/post.name/'photos').should == true
+      File.exists?(APP_ROOT/'public'/post.name/'montage.png').should == true
     end
     
     it "removes the symlink to the post's montage on #delete"

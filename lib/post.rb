@@ -1,24 +1,24 @@
 class Post
-  attr_accessor :text, :body, :dirname, :dir
+  attr_accessor :text, :body, :dirname, :dir, :name
   
   def self.all
     valids = []
     Dir.chdir POSTS_ROOT do
-      # Dir['*'].inject going weird for some reason...
       Dir['*'].each do |dir|
-        valids << dir if File.exists?(dir/'text') and File.exists?(dir/'body')
+        valids << Post.open(dir) if File.exists?(dir/'text') and File.exists?(dir/'body.textile')
       end
     end
     valids
   end
   
   def self.open(dirname)
-    all.include?(File.basename(dirname)) ? new(POSTS_ROOT/dirname) : nil
+    new(POSTS_ROOT/dirname)
   end
   
   def initialize(dirname)
     self.text = File.read dirname/'text'
     @dir = File.expand_path dirname
+    @name = File.basename @dir
   end
     
   def exists?
@@ -36,7 +36,7 @@ class Post
   def montage_path
     dir/'montage.png'
   end
-  
+    
   def stack_polaroids!(number_of_photos = 3)
     _photos = photos[0..number_of_photos]
     _photos.each do |photo|
@@ -50,6 +50,7 @@ class Post
       '-composite', '-trim',
       montage_path
     ].join ' '
+    puts "COMMAND: #{command}"
     system command
   end
   

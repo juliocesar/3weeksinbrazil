@@ -7,7 +7,7 @@ class Photo
   end
   
   def post(basename = false)
-    Post.open File.basename(File.expand_path(File.dirname(@image.path)/'..'))
+    Post.open File.basename(File.expand_path(File.dirname(@image.path)/'..'/'..'))
   end
   
   def path(polaroid = false)
