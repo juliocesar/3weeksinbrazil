@@ -43,7 +43,7 @@ class Post < ActiveRecord::Base
   def montage_path
     "/posts/#{id}/montage.png"
   end
-  
+    
   def build_body!
     return unless text
     if montage_exists?

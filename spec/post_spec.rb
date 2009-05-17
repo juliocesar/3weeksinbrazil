@@ -21,7 +21,6 @@ describe Post do
       post = Factory :post, :title => 'Foo Bar Inc', :skip_montage => true
       post.slug.should == 'Foo Bar Inc'.to_url
     end
-    
   end
   
   describe 'montages' do
@@ -46,6 +45,11 @@ describe Post do
       @post.destroy
       @post.montage_exists?.should == false
     end
+  end
+  
+  describe "creating" do
+    it "creates a new post from a directory" 
+    it "updates an existing post from a directory"
   end
   
   describe '#location_from_time' do
