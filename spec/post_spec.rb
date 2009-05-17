@@ -10,13 +10,6 @@ describe Post do
       end
     end
     
-    it 'should bitch if timezone is not found by tzinfo' do
-      post = Factory.build :post, :skip_montage => true
-      post.zone = 'Mars'
-      post.save
-      post.errors['zone'].should_not be_nil
-    end
-    
     it "generates a slug" do
       post = Factory :post, :title => 'Foo Bar Inc', :skip_montage => true
       post.slug.should == 'Foo Bar Inc'.to_url
@@ -48,15 +41,18 @@ describe Post do
   end
   
   describe "creating" do
-    it "creates a new post from a directory" 
+    it "creates a new post from a directory" do
+      
+    end
+    
     it "updates an existing post from a directory"
   end
   
-  describe '#location_from_time' do
+  describe '#location' do
     # Proves it works, kthxbye
     it 'should return "Sydney to Argentina" for 20th of May, around noon, Sydney time' do
       post = Factory :post, :created_at => Time.parse('Wed May 20 01:58:50 UTC 2009'), :skip_montage => true
-      post.location_from_time.should == 'Sydney to Argentina'
+      post.location.should == 'Sydney to Argentina'
     end
   end
   

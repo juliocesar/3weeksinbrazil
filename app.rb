@@ -7,9 +7,9 @@ get '/'       do haml :home, :layout => false end
 get '/intro'  do haml :intro end
 
 get '/index' do
-  @all_grouped = Post.all.group_by(&:location_from_time)
+  @all_grouped = Post.all.group_by(&:location)
   @posts = Post.paginate :per_page => 18, :page => params[:page]
-  @grouped = @posts.group_by(&:location_from_time)
+  @grouped = @posts.group_by(&:location)
   haml :index
 end
 

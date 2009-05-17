@@ -5,13 +5,12 @@ class Post < ActiveRecord::Base
   
   validates_presence_of :title, :text, :zone
   validates_length_of   :title, :within => 1..85
-  validate              :timezone_exists  
   
   before_validation :set_slug, :build_body!
   after_save        :build_montage!
   after_destroy     :delete_montage
     
-  def location_from_time
+  def location
     CONFIG['itinerary'].each do |transit, dep_arr|
       if created_at > DateTime.strptime(dep_arr[0], "%d/%m/%Y %I:%M %p %Z") and
         created_at < DateTime.strptime(dep_arr[1], "%d/%m/%Y %I:%M %p %Z")
@@ -66,15 +65,17 @@ class Post < ActiveRecord::Base
     FileUtils.rm_rf APP_ROOT/'public'/'posts'/id
   end
   
-  private
-  def timezone_exists
-    begin
-      TZInfo::Timezone.get zone      
-    rescue TZInfo::InvalidTimezoneIdentifier
-      errors.add 'zone', 'is not a valid timezone'
-    end
+  def self.from_directory(path)
+    raise ArgumentError, "#{path} must be a valid post directory" unless valid_post_dir?(path)
+    text = File.read(path/'text').split(/\n+/)
+    Post.new :title => text.shift, :text => text.join("\n\n")
   end
   
+  def self.valid_post_dir?(path)
+    File.directory?(path) and File.exist?(path/'text')
+  end
+  
+  private
   def set_slug
     self.slug = title.to_url rescue nil
   end
@@ -108,5 +109,5 @@ class Post < ActiveRecord::Base
     ].join ' '
     system command
   end
-  
+    
 end
