@@ -2,12 +2,12 @@
 html    { font-family: 'Gill Sans', Helvetica, Arial, Verdana, sans-serif; font-size: 76% }
 body, a { color: #414141 }
 
-a       { text-decoration: none }
+/*a       { text-decoration: none }*/
 a:hover { text-decoration: underline }
 
 /* Layout is static, so we won't be stretching anything ever */
 h1  { font-size: 22px }
-p   { font-size: 15px; text-indent: 1em }
+p   { font-size: 15px; text-indent: 1em; margin-bottom: 0.5em }
 
 h1.index  { margin-bottom: 10px }
 h1.title  { margin-bottom: 15px }
