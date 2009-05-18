@@ -79,12 +79,8 @@ class Post < ActiveRecord::Base
     end
     if File.directory?(path/'photos')
       Dir[path/'photos'/'*.{jpg,JPG}'].each do |photo|
-        if Photo.find_by_image_file_name File.basename(photo)
-          puts "PHOTO ALREADY EXISTS"
-          next
-        else
-          Photo.create :post => post, :image => File.open(photo)
-        end
+        next if Photo.find_by_image_file_name File.basename(photo)
+        Photo.create :post => post, :image => File.open(photo)
       end
     end
     post.build_body!
