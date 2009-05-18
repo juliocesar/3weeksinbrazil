@@ -8,7 +8,8 @@ get '/intro'  do haml :intro end
 
 get '/posts.xml' do 
   @posts = Post.all :order => 'created_at DESC'
-  content_type 'application/rss+xml'
+  # to my dismay... but readers just seem to take it better
+  content_type 'text/xml'
   builder :feed
 end
 
