@@ -1,8 +1,4 @@
 require 'rubygems'
-
-gem 'rack', '0.9.1'
-require 'rack'
-
 require 'sinatra'
 
 require File.join(File.dirname(__FILE__), 'config', 'boot')
@@ -11,7 +7,7 @@ get '/'       do haml :home, :layout => false end
 get '/intro'  do haml :intro end
 
 get '/posts.xml' do 
-  @posts = Post.all
+  @posts = Post.all :order => 'created_at DESC'
   content_type 'application/rss+xml'
   builder :feed
 end
