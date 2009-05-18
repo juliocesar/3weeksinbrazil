@@ -6,7 +6,7 @@ class Post < ActiveRecord::Base
   validates_presence_of :title, :text
   validates_length_of   :title, :within => 1..85
   
-  before_validation :set_slug, :build_body!
+  before_validation :set_slug
   after_save        :build_montage!
   after_destroy     :delete_montage
     
@@ -58,6 +58,7 @@ class Post < ActiveRecord::Base
     else
       self.body = RedCloth.new(text).to_html
     end
+    save!
   end
   
   def delete_montage
@@ -77,7 +78,7 @@ class Post < ActiveRecord::Base
       post = Post.create :title => title, :text => text
     end
     if File.directory?(path/'photos')
-      Dir[path/'photos'/'*.jpg'].each do |photo|
+      Dir[path/'photos'/'*.{jpg,JPG}'].each do |photo|
         if Photo.find_by_image_file_name File.basename(photo)
           puts "PHOTO ALREADY EXISTS"
           next
@@ -86,10 +87,12 @@ class Post < ActiveRecord::Base
         end
       end
     end
+    post.build_body!
     post
   end
   
   def self.valid_post_dir?(path)
+    puts "GOT: #{path}"
     File.directory?(path) and File.exist?(path/'text')
   end
   
