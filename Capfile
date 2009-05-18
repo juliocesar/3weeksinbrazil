@@ -9,14 +9,24 @@ set :scm,         'git'
 set :branch,      ENV['BRANCH'] || 'master'
 set :scm_verbose, true
 
-
 server '3weeksinbrazil.com', :app, :web
+role :db, '3weeksinbrazil.com', :primary => true
 
 namespace :deploy do
   
+  desc 'Creates APP/tmp dir'
+  task :create_tmp do
+    run "mkdir -p #{current_path}/tmp"
+  end
+  
+  desc 'Copies app config in place'
+  task :copy_app_config do
+    run "cp ~/3weeks-app-config.yml #{current_path}/config/application.yml"
+  end
+  
   desc 'Restarts Apache'
   task :restart do
-    run "#{current_path}/tmp/restart.txt"
+    run "touch #{current_path}/tmp/restart.txt"
   end
   
   desc 'Ensures site is enabled and starts Apache'
@@ -31,4 +41,6 @@ namespace :deploy do
     sudo "apache2ctl graceful"
   end
   
-end    
+end
+
+after "deploy:symlink", "deploy:create_tmp", "deploy:copy_app_config"

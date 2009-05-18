@@ -65,16 +65,25 @@ class Post < ActiveRecord::Base
     FileUtils.rm_rf APP_ROOT/'public'/'posts'/id
   end
   
-  def self.create_from_directory(path)
+  def self.create_or_update_from_directory(path)
     raise ArgumentError, "#{path} must be a valid post directory" unless valid_post_dir?(path)
     text_file = File.open(path/'text')
     title = text_file.readlines.first.chomp
     text_file.rewind and text_file.seek(title.length)
-    body = text_file.read
-    post = Post.new :title => title, :text => body
+    text = text_file.read
+    if post = Post.find_by_slug(title.to_url)
+      result = post.update_attributes! :title => title, :text => text
+    else
+      post = Post.create :title => title, :text => text
+    end
     if File.directory?(path/'photos')
       Dir[path/'photos'/'*.jpg'].each do |photo|
-        Photo.create :post => post, :image => File.open(photo)
+        if Photo.find_by_image_file_name File.basename(photo)
+          puts "PHOTO ALREADY EXISTS"
+          next
+        else
+          Photo.create :post => post, :image => File.open(photo)
+        end
       end
     end
     post

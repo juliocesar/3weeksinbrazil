@@ -7,7 +7,6 @@ require 'paperclip'
 require 'stringex'
 require 'hpricot'
 require 'will_paginate' 
-# require 'will_paginate/finders/active_record'
 
 WillPaginate.enable_activerecord
 
@@ -23,7 +22,8 @@ rescue Errno::ENOENT
   exit(1)
 end
 
-APP_ROOT = File.dirname(__FILE__)/'..'
+APP_ROOT    = File.dirname(__FILE__)/'..'
+POSTS_ROOT  = CONFIG['posts'][/^\//] ? CONFIG['posts'] : APP_ROOT/CONFIG['posts'] 
 
 ActiveRecord::Base.establish_connection(CONFIG['database'])
 ActiveRecord::Base.logger = Logger.new(STDOUT)

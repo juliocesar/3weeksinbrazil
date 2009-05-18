@@ -1,4 +1,8 @@
 require 'rubygems'
+
+gem 'rack', '0.9.1'
+require 'rack'
+
 require 'sinatra'
 
 require File.join(File.dirname(__FILE__), 'config', 'boot')
