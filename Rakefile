@@ -18,7 +18,7 @@ namespace :posts do
   desc 'Imports all posts from POSTS_ROOT'
   task(:import => :environment) do
     if ENV['DIRNAME']
-      Post.create_from_directory POSTS_ROOT/ENV['DIRNAME']
+      Post.create_or_update_from_directory POSTS_ROOT/ENV['DIRNAME']
     else
       Dir[POSTS_ROOT/'*'].each do |dir|
         next unless File.directory? dir
