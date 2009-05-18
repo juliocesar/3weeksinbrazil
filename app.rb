@@ -10,6 +10,12 @@ require File.join(File.dirname(__FILE__), 'config', 'boot')
 get '/'       do haml :home, :layout => false end
 get '/intro'  do haml :intro end
 
+get '/posts.xml' do 
+  @posts = Post.all
+  content_type 'application/rss+xml'
+  builder :feed
+end
+
 get '/index' do
   @all_grouped = Post.all.group_by(&:location)
   @posts = Post.paginate :per_page => 18, :page => params[:page]
