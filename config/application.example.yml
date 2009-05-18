@@ -1,3 +1,4 @@
+posts: posts
 database:
   adapter: sqlite3
   database: db/database.sqlite3
