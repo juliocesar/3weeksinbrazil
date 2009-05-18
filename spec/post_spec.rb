@@ -32,7 +32,6 @@ describe Post do
     it 'adds the polaroid to the first paragraph of the body if one exists' do
       @post.build_montage!
       @post.build_body!
-      puts "CAN HAZ: #{@post.body}"
       p = (Hpricot(@post.body)/'p').first
       p.to_s.should match(/<a href/)
     end
@@ -44,12 +43,19 @@ describe Post do
   end
   
   describe "creating" do
+    before do
+      FileUtils.rm_rf POSTS_ROOT/'*'
+    end
+
     it "creates a new post from a directory" do
-      
-      
+      create_post_directory 'a_poetic_post', POSTS_ROOT
+      post = Post.create_or_update_from_directory 'a_poetic_post'
+      post.should be_an_instance_of(Post)
     end
     
-    it "updates an existing post from a directory"
+    it "updates an existing post from a directory" do
+    end
+
   end
   
   describe '#location' do
@@ -59,6 +65,4 @@ describe Post do
       post.location.should == 'Sydney to Argentina'
     end
   end
-  
-  
 end

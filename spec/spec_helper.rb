@@ -4,6 +4,9 @@ require 'spec'
 require 'factory_girl'
 require 'faker'
 
+POSTS_ROOT = '/tmp/posts'
+FileUtils.mkdir_p POSTS_ROOT
+
 def upload_photo
   File.open File.dirname(__FILE__)/'fixtures'/'lacador.jpg'
 end
@@ -16,7 +19,11 @@ def create_post_with_date(date = Time.parse('Wed May 20 11:00:00 UTC 2009') + ra
 end
 
 def create_post_directory(dirname, path = '/tmp/posts')
-  FileUtils.mkdir_p path/dirname
+  FileUtils.mkdir_p path/dirname/'photos'
+  `echo #{Faker::Lorem.name} >> #{path/dirname/'text'}`       # title
+  `echo #{Faker::Lorem.paragraph} >> #{path/dirname/'text'}`  # body
+  FileUtils.cp File.dirname(__FILE__)/'fixtures'/'lacador.jpg', path/dirname/'photos/'
+  dirname
 end
 
 Factory.define :post do |post|
