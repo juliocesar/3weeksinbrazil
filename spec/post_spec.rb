@@ -24,12 +24,15 @@ describe Post do
       @post.save
     end
     
-    it 'builds a polaroid (or a bunch) with one or more pictures' do
+    it 'builds a polaroid (or a bunch) with one or more pictures on #build_montage!' do
+      @post.build_montage!
       File.exists?(APP_ROOT/'public'/'posts'/@post.id/'montage.png').should == true
     end
     
     it 'adds the polaroid to the first paragraph of the body if one exists' do
-      @post.save
+      @post.build_montage!
+      @post.build_body!
+      puts "CAN HAZ: #{@post.body}"
       p = (Hpricot(@post.body)/'p').first
       p.to_s.should match(/<a href/)
     end

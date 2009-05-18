@@ -7,7 +7,6 @@ class Post < ActiveRecord::Base
   validates_length_of   :title, :within => 1..85
   
   before_validation :set_slug
-  after_save        :build_montage!
   after_destroy     :delete_montage
     
   def location
@@ -83,12 +82,12 @@ class Post < ActiveRecord::Base
         Photo.create :post => post, :image => File.open(photo)
       end
     end
+    post.build_montage!
     post.build_body!
     post
   end
   
   def self.valid_post_dir?(path)
-    puts "GOT: #{path}"
     File.directory?(path) and File.exist?(path/'text')
   end
   
