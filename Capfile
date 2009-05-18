@@ -9,7 +9,8 @@ set :scm,         'git'
 set :branch,      ENV['BRANCH'] || 'master'
 set :scm_verbose, true
 
-server '3weeksinbrazil.com', :app, :web, :db
+server '3weeksinbrazil.com', :app, :web
+role :db, '3weeksinbrazil.com', :primary => true
 
 namespace :deploy do
   
@@ -38,11 +39,6 @@ namespace :deploy do
   task :stop do
     sudo "a2dissite 3weeksinbrazil.com"
     sudo "apache2ctl graceful"
-  end
-  
-  task :cold do
-    deploy.update
-    deploy.start
   end
   
 end
