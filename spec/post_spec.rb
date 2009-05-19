@@ -47,14 +47,9 @@ describe Post do
       FileUtils.rm_rf POSTS_ROOT/'*'
     end
 
-    it "creates a new post from a directory" do
-      create_post_directory 'a_poetic_post', POSTS_ROOT
-      post = Post.create_or_update_from_directory 'a_poetic_post'
-      post.should be_an_instance_of(Post)
-    end
+    it "creates a new post from a directory"
     
-    it "updates an existing post from a directory" do
-    end
+    it "updates an existing post from a directory"
 
   end
   

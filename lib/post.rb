@@ -24,12 +24,12 @@ class Post < ActiveRecord::Base
     FileUtils.mkdir_p APP_ROOT/'public'/'posts'/id
     if photos.count > 1
       polaroids = photos.all.inject([]) do |result, photo|
-        result << polaroid!(photo)
+        result << photo.polaroid!
       end
       stack_polaroids! polaroids[0..2]
     else
-      polaroid! photos.first
-      polaroid! photos.first, APP_ROOT/'public'/'posts'/id/'montage.png'
+      photos.first.polaroid!
+      photos.first.polaroid! APP_ROOT/'public'/'posts'/id/'montage.png'
     end
     montage_exists?
   end
@@ -96,19 +96,6 @@ class Post < ActiveRecord::Base
     self.slug = title.to_url rescue nil
   end
     
-  def polaroid!(photo, output_path = nil)
-    output_path ||= APP_ROOT/'public'/'photos'/photo.id/'polaroid'/"#{File.basename(pngize(photo.image.path))}"
-    FileUtils.mkdir_p File.dirname(output_path) unless File.directory?(File.dirname(output_path))
-    command = [
-      'convert', photo.image.path, '-thumbnail 130x130',
-      '-bordercolor white', '-border 0.3', '-background transparent', '-background grey20',
-      "-polaroid #{rand(5) * (rand(2).zero? ? -1 : 1)}", '-background white',
-      output_path
-    ].join ' '
-    system command
-    output_path
-  end
-  
   def pngize(path)
     extension = File.extname(path)
     path.sub! /#{extension}$/, '.png'
