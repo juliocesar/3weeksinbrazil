@@ -26,14 +26,27 @@ get '/pics' do
 end
 
 get '/:slug' do
-  @post = Post.find_by_slug! params[:slug]
-  haml :post
+  begin
+    @post = Post.find_by_slug! params[:slug]
+    haml :post
+  rescue ActiveRecord::RecordNotFound
+    not_found
+  end
 end
 
 get '/:slug/photos' do
-  @post = Post.find_by_slug! params[:slug]
-  @photos = @post.photos.paginate :per_page => 11, :page => params[:page]
-  haml :photos
+  begin
+    @post = Post.find_by_slug! params[:slug]
+    @photos = @post.photos.paginate :per_page => 11, :page => params[:page]
+    haml :photos
+  rescue ActiveRecord::RecordNotFound
+    not_found
+  end
+end
+
+not_found do
+  content_type 'text/plain'
+  "No art for the wicked. Try going to http://3weeksinbrazil.com"
 end
 
 helpers do  
