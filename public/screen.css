@@ -8,8 +8,10 @@ h1 a				{ text-decoration: none }
 
 /* Layout is static, so we won't be stretching anything ever */
 h1    { font-size: 22px }
-p     { font-size: 15px; text-indent: 1em; margin-bottom: 0.5em }
-li    { list-style-type: square; margin-left: 15px }
+p, li { font-size: 15px; margin-bottom: 0.5em }
+p     { text-indent: 1em }
+ul    { margin-bottom: 1em }
+li    { list-style-type: square; margin-left: 30px }
 
 h1.index  { margin-bottom: 10px }
 h1.title  { margin-bottom: 15px }
