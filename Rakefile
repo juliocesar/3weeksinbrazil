@@ -38,7 +38,9 @@ namespace :posts do
       end
       puts "Deleting #{photo.inspect}..."
       photo.destroy
-      photo.post.save!
+      post = photo.post
+      post.build_montage!
+      post.build_body!
     elsif ENV['POST']
       unless post = Post.find_by_slug(ENV['POST'])
         puts "Couldn't find post with slug #{ENV['POST']}. Bailing out..."
@@ -48,7 +50,8 @@ namespace :posts do
         puts "Deleting #{photo.inspect}..."
         photo.destroy
       end
-      post.save!
+      post.build_montage!
+      post.build_body!
     end
   end
 end

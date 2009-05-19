@@ -14,6 +14,14 @@ role :db, '3weeksinbrazil.com', :primary => true
 
 namespace :deploy do
   
+  desc 'Creates symlink for photos and posts montage dirs'
+  task :symlink_photos_posts do
+    run "mkdir -p #{shared_path}/posts"
+    run "mkdir -p #{shared_path}/photos"
+    run "ln -s #{shared_path}/posts #{current_path}/public/posts"
+    run "ln -s #{shared_path}/photos #{current_path}/public/photos"
+  end
+  
   desc 'Creates APP/tmp dir'
   task :create_tmp do
     run "mkdir -p #{current_path}/tmp"
@@ -42,8 +50,7 @@ namespace :deploy do
   end  
 end
 
-namespace :posts do
-  
+namespace :posts do  
   desc "Imports posts from APP_CONFIG['posts']"
   task :import do
     run [
@@ -56,7 +63,7 @@ namespace :posts do
   task :delete_photos do
     run [
       "cd #{current_path} &&",
-      "rake delete_photos",
+      "rake posts:delete_photos",
       "#{ENV['PHOTO'] ? "PHOTO=" + ENV['PHOTO'] : ""}",
       "#{ENV['POST'] ? "POST=" + ENV['POST'] : ""}"
     ].join ' '
@@ -71,4 +78,4 @@ namespace :posts do
   end
 end
 
-after "deploy:symlink", "deploy:create_tmp", "deploy:copy_app_config"
+after "deploy:symlink", "deploy:create_tmp", "deploy:copy_app_config", "deploy:symlink_photos_posts"
