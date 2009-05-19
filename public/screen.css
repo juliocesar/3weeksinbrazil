@@ -36,14 +36,16 @@ p.post    { margin: 5px 0 10px 0px }
 #pics, 
 #index, 
 #intro,
+#source,
 #next,
 #previous { position: absolute }
 #weeks    { top: 30px;  left:   60px  }
 #pics     { top: 290px; left:   60px  }
 #index    { top: 240px; left:   270px }
 #intro    { top: 340px; left:   510px }
-#next     { top: 725px; right:  60px }
-#previous { top: 755px; right:  75px }
+#next     { top: 725px; right:  60px  }
+#previous { top: 755px; right:  75px  }
+#source   { top: 560px; left:   10px  }
 
 #weeks-small  { margin: 40px 0 20px 40px }
 
