@@ -11,4 +11,8 @@ set :run => false,
 
 require File.join(File.dirname(__FILE__), 'app')
 
+require 'noie'
+
+use NoIE
+
 run Sinatra::Application
