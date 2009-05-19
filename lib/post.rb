@@ -16,7 +16,7 @@ class Post < ActiveRecord::Base
         return transit
       end
     end
-    'In Brazil'
+		'In Sydney'
   end
   
   def build_montage!

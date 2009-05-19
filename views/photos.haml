@@ -1,7 +1,8 @@
 - @title = @post.title + ': photos'
 = three_weeks_logo  
 %h1.title
-  = @post.title + ', ' + @post.created_at.strftime("%d/%m/%Y") + '.'
+	%a{:href => '/' + @post.slug }
+	  = @post.title + ', ' + @post.created_at.strftime("%d/%m/%Y") + '.'
 %ul{:id => 'photos'}
   - @photos.each do |photo|
     %li
