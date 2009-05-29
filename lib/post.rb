@@ -9,10 +9,10 @@ class Post < ActiveRecord::Base
   before_validation :set_slug
   after_destroy     :delete_montage
     
-  def location
+  def location        
     CONFIG['itinerary'].each do |transit, dep_arr|
-      if created_at > DateTime.strptime(dep_arr[0], "%d/%m/%Y %I:%M %p %Z") and
-        created_at < DateTime.strptime(dep_arr[1], "%d/%m/%Y %I:%M %p %Z")
+      if created_at.to_datetime > DateTime.strptime(dep_arr[0], "%d/%m/%Y %I:%M %p %Z") and
+        created_at.to_datetime < DateTime.strptime(dep_arr[1], "%d/%m/%Y %I:%M %p %Z")
         return transit
       end
     end
