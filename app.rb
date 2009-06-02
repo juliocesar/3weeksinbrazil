@@ -37,7 +37,7 @@ end
 get '/:slug/photos' do
   begin
     @post = Post.find_by_slug! params[:slug]
-    @photos = @post.photos.paginate :per_page => 11, :page => params[:page]
+    @photos = @post.photos.paginate :per_page => 12, :page => params[:page]
     haml :photos
   rescue ActiveRecord::RecordNotFound
     not_found
